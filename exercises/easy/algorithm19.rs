@@ -11,9 +11,35 @@
 
 use std::fmt::{self, Display, Formatter};
 
+fn multiply(a: [[i32; 2]; 2], b: [[i32; 2]; 2]) -> [[i32; 2]; 2] {
+    let mut result = [[0, 0], [0, 0]];
+    for i in 0..2 {
+        for j in 0..2 {
+            for k in 0..2 {
+                result[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+    result
+}
+
 pub fn fib(n: i32) -> i32 {
     // TODO: Implement the logic to calculate the nth Fibonacci number using matrix exponentiation
-    0 // Placeholder return value
+    if n == 0 {
+        return 0;
+    }
+    let mut result = [[1, 0], [0, 1]];
+    let mut base = [[1, 1], [1, 0]];
+    let mut n = n;
+    while n > 0 {
+        if n & 1 == 1 {
+            result = multiply(result, base);
+        }
+        base = multiply(base, base);
+        n /= 2;
+    }
+    result[0][1]
+    // 0 // Placeholder return value
 }
 
 #[cfg(test)]
